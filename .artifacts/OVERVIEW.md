@@ -21,10 +21,10 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 
 ## Current state
 
-Version `v0.1.0` was released, and its GitHub Actions verification and release jobs passed. The generated cask installed but macOS Gatekeeper rejected its unsigned archive binary. The release pipeline is being migrated to a Homebrew formula, which installs the same CLI outside cask quarantine; `v0.1.1` will replace the obsolete cask with the formula.
+Version `v0.1.1` is released. Its GitHub Actions verification and release jobs passed; the formula is published at the root of `dnjdsxor21/homebrew-tap`; the obsolete `v0.1.0` cask was deleted. `brew install dnjdsxor21/tap/mouse-jiggler` and the formula's `brew test` both passed on Apple Silicon.
 
 ## Next step
 
-Release `v0.1.1` with the Homebrew formula, remove the obsolete cask, install the formula, and test the live Accessibility path.
+Users grant Accessibility access for the installed executable and run `mouse-jiggler`; a maintainer rotates `RELEASE_GITHUB_TOKEN` before its expiry.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.
