@@ -1,0 +1,43 @@
+version: 2
+project_name: mouse-jiggler
+
+builds:
+  - id: mouse-jiggler
+    main: ./cmd/mouse-jiggler
+    binary: mouse-jiggler
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=1
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: default
+    ids:
+      - mouse-jiggler
+    formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+homebrew_casks:
+  - name: mouse-jiggler
+    ids:
+      - default
+    binaries:
+      - mouse-jiggler
+    repository:
+      owner: wontaek
+      name: homebrew-tap
+      branch: main
+    homepage: https://github.com/wontaek/mouse-jiggler-go
+    description: Moves the mouse pointer periodically without clicking
+    caveats: |
+      mouse-jiggler needs Accessibility access before it can move the pointer.
+      Open System Settings > Privacy & Security > Accessibility, add the
+      installed executable, enable it, and run mouse-jiggler again.
