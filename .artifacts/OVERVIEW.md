@@ -21,10 +21,10 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 
 ## Current state
 
-The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. GitHub CLI is not authenticated, and GoReleaser is not installed locally, so repository creation, release, tap update, and live Accessibility verification remain outstanding.
+The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. GitHub CLI is authenticated as `dnjdsxor21`, but that account cannot create `wontaek/mouse-jiggler-go`; no remote repository, release, tap update, or live Accessibility verification has occurred.
 
 ## Next step
 
-Authenticate GitHub CLI, create the public source repository and tap, add the tap token secret, push `main`, then test a tagged Homebrew release with Accessibility access.
+Authenticate an account authorized to create repositories for `wontaek`, or approve publishing under `dnjdsxor21`. Then create the source repository and tap, add the release secret, push `main`, and test a tagged Homebrew release with Accessibility access.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.
