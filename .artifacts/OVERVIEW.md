@@ -21,10 +21,10 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 
 ## Current state
 
-The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. GitHub CLI is authenticated as `dnjdsxor21`; the approved publication owner is now `dnjdsxor21`.
+The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. Source is pushed to the public `dnjdsxor21/mouse-jiggler-go` repository at `01fab96`; the public `dnjdsxor21/homebrew-tap` repository also exists. The required `RELEASE_GITHUB_TOKEN` secret is not set, so no GitHub release, tap cask, Homebrew installation, or live Accessibility verification has occurred.
 
 ## Next step
 
-Create the public source repository and tap, add the release secret, push `main`, and test a tagged Homebrew release with Accessibility access.
+Create a fine-grained token restricted to Contents read/write for the two repositories, set it as `RELEASE_GITHUB_TOKEN` on `dnjdsxor21/mouse-jiggler-go`, then push `v0.1.0` and test the Homebrew release with Accessibility access.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.
