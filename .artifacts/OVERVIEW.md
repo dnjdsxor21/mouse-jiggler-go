@@ -10,7 +10,7 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 - Foreground `mouse-jiggler` process; Ctrl-C or SIGTERM stops it.
 - Default interval: 60 seconds; configurable with `--interval`.
 - Accessibility permission preflight with actionable guidance.
-- Public GitHub releases from `dnjdsxor21/mouse-jiggler-go` and a Homebrew cask in `dnjdsxor21/homebrew-tap`.
+- Public GitHub releases from `dnjdsxor21/mouse-jiggler-go` and a Homebrew formula in `dnjdsxor21/homebrew-tap`.
 - MIT license.
 
 ## Decisions
@@ -21,10 +21,10 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 
 ## Current state
 
-The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. Source is pushed to the public `dnjdsxor21/mouse-jiggler-go` repository at `01fab96`; the public `dnjdsxor21/homebrew-tap` repository also exists. The required `RELEASE_GITHUB_TOKEN` secret is not set, so no GitHub release, tap cask, Homebrew installation, or live Accessibility verification has occurred.
+Version `v0.1.0` was released, and its GitHub Actions verification and release jobs passed. The generated cask installed but macOS Gatekeeper rejected its unsigned archive binary. The release pipeline is being migrated to a Homebrew formula, which installs the same CLI outside cask quarantine; `v0.1.1` will replace the obsolete cask with the formula.
 
 ## Next step
 
-Create a fine-grained token restricted to Contents read/write for the two repositories, set it as `RELEASE_GITHUB_TOKEN` on `dnjdsxor21/mouse-jiggler-go`, then push `v0.1.0` and test the Homebrew release with Accessibility access.
+Release `v0.1.1` with the Homebrew formula, remove the obsolete cask, install the formula, and test the live Accessibility path.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.

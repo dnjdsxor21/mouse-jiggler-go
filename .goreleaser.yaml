@@ -25,18 +25,21 @@ archives:
 checksum:
   name_template: checksums.txt
 
-homebrew_casks:
+brews:
   - name: mouse-jiggler
     ids:
       - default
-    binaries:
-      - mouse-jiggler
     repository:
       owner: dnjdsxor21
       name: homebrew-tap
       branch: main
     homepage: https://github.com/dnjdsxor21/mouse-jiggler-go
     description: Moves the mouse pointer periodically without clicking
+    license: MIT
+    install: |
+      bin.install "mouse-jiggler"
+    test: |
+      system "#{bin}/mouse-jiggler", "--version"
     caveats: |
       mouse-jiggler needs Accessibility access before it can move the pointer.
       Open System Settings > Privacy & Security > Accessibility, add the

@@ -24,17 +24,17 @@ mouse-jiggler --version
 ## Release pipeline
 
 1. GitHub Actions runs `go test ./...` and `go vet ./...` for pull requests and pushes.
-2. A `v*` tag runs GoReleaser. It builds a `darwin/arm64` archive, injects the tag version, produces checksums, creates the GitHub release, and commits the generated Homebrew cask to `dnjdsxor21/homebrew-tap`.
-3. The release workflow requires `RELEASE_GITHUB_TOKEN`: a fine-grained GitHub token with Contents read/write permission limited to both repositories. GoReleaser uses it for the source GitHub release and the separate tap cask commit.
-4. The tap cask installs the archived `mouse-jiggler` binary and verifies `mouse-jiggler --version`.
-5. A user installs it with `brew tap dnjdsxor21/tap` and `brew install --cask mouse-jiggler`.
+2. A `v*` tag runs GoReleaser. It builds a `darwin/arm64` archive, injects the tag version, produces checksums, creates the GitHub release, and commits the generated Homebrew formula to `dnjdsxor21/homebrew-tap`.
+3. The release workflow requires `RELEASE_GITHUB_TOKEN`: a fine-grained GitHub token with Contents read/write permission limited to both repositories. GoReleaser uses it for the source GitHub release and the separate tap formula commit.
+4. The tap formula installs the archived `mouse-jiggler` binary and verifies `mouse-jiggler --version`.
+5. A user installs it with `brew tap dnjdsxor21/tap` and `brew install mouse-jiggler`.
 
 ## Verification
 
 - Unit test the runner and CLI parsing/validation.
 - Build and run the binary on Apple Silicon.
 - With Accessibility permission enabled, run at a short interval and interrupt it; verify pointer motion, restoration, and clean exit.
-- Tag a prerelease, confirm its GitHub archive/checksum/cask commit, install through Homebrew, and run `--version` plus a short live session.
+- Tag a prerelease, confirm its GitHub archive/checksum/formula commit, install through Homebrew, and run `--version` plus a short live session.
 
 ## Exclusions
 
