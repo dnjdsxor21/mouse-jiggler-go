@@ -10,7 +10,7 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 - Foreground `mouse-jiggler` process; Ctrl-C or SIGTERM stops it.
 - Default interval: 60 seconds; configurable with `--interval`.
 - Accessibility permission preflight with actionable guidance.
-- Public GitHub releases from `wontaek/mouse-jiggler-go` and a Homebrew cask in `wontaek/homebrew-tap`.
+- Public GitHub releases from `dnjdsxor21/mouse-jiggler-go` and a Homebrew cask in `dnjdsxor21/homebrew-tap`.
 - MIT license.
 
 ## Decisions
@@ -21,10 +21,10 @@ Ship a minimal, Homebrew-installable macOS CLI that periodically moves the point
 
 ## Current state
 
-The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. GitHub CLI is authenticated as `dnjdsxor21`, but that account cannot create `wontaek/mouse-jiggler-go`; no remote repository, release, tap update, or live Accessibility verification has occurred.
+The CLI, tests, native bridge, GitHub Actions workflow, GoReleaser cask configuration, README, and MIT license are present. `go test ./...`, `go vet ./...`, and the local arm64 build pass. GitHub CLI is authenticated as `dnjdsxor21`; the approved publication owner is now `dnjdsxor21`.
 
 ## Next step
 
-Authenticate an account authorized to create repositories for `wontaek`, or approve publishing under `dnjdsxor21`. Then create the source repository and tap, add the release secret, push `main`, and test a tagged Homebrew release with Accessibility access.
+Create the public source repository and tap, add the release secret, push `main`, and test a tagged Homebrew release with Accessibility access.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.

@@ -32,10 +32,10 @@ homebrew_casks:
     binaries:
       - mouse-jiggler
     repository:
-      owner: wontaek
+      owner: dnjdsxor21
       name: homebrew-tap
       branch: main
-    homepage: https://github.com/wontaek/mouse-jiggler-go
+    homepage: https://github.com/dnjdsxor21/mouse-jiggler-go
     description: Moves the mouse pointer periodically without clicking
     caveats: |
       mouse-jiggler needs Accessibility access before it can move the pointer.

@@ -1,3 +1,3 @@
-module github.com/wontaek/mouse-jiggler-go
+module github.com/dnjdsxor21/mouse-jiggler-go
 
 go 1.26.0

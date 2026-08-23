@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/wontaek/mouse-jiggler-go/internal/jiggler"
-	"github.com/wontaek/mouse-jiggler-go/internal/platform"
+	"github.com/dnjdsxor21/mouse-jiggler-go/internal/jiggler"
+	"github.com/dnjdsxor21/mouse-jiggler-go/internal/platform"
 )
 
 var version = "dev"

@@ -10,7 +10,7 @@ A minimal macOS command-line mouse jiggler. It moves the pointer by one point an
 ## Install
 
 ```sh
-brew tap wontaek/tap
+brew tap dnjdsxor21/tap
 brew install --cask mouse-jiggler
 ```
 
@@ -49,8 +49,8 @@ go build -o mouse-jiggler ./cmd/mouse-jiggler
 
 ## Release
 
-1. Create public repositories `wontaek/mouse-jiggler-go` and `wontaek/homebrew-tap`.
-2. Add the repository secret `RELEASE_GITHUB_TOKEN`: a fine-grained GitHub token with Contents read/write access limited to both `wontaek/mouse-jiggler-go` and `wontaek/homebrew-tap`.
+1. Create public repositories `dnjdsxor21/mouse-jiggler-go` and `dnjdsxor21/homebrew-tap`.
+2. Add the repository secret `RELEASE_GITHUB_TOKEN`: a fine-grained GitHub token with Contents read/write access limited to both `dnjdsxor21/mouse-jiggler-go` and `dnjdsxor21/homebrew-tap`.
 3. Push `main`, then push a tag such as `v0.1.0`.
 4. GitHub Actions tests the source, creates the GitHub release, and updates the Homebrew cask in the tap.
 

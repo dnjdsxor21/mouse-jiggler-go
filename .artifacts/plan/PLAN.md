@@ -15,7 +15,7 @@ mouse-jiggler --version
 
 ## Implementation
 
-1. Initialize `github.com/wontaek/mouse-jiggler-go` as a Go 1.26 module with MIT licensing and a narrow Go `.gitignore`.
+1. Initialize `github.com/dnjdsxor21/mouse-jiggler-go` as a Go 1.26 module with MIT licensing and a narrow Go `.gitignore`.
 2. Add a testable interval runner that invokes one injected jiggle function immediately and subsequently on its ticker. Test positive-interval behavior and immediate cancellation.
 3. Add the CLI entry point. It parses flags, validates duration, handles `--help` and `--version`, checks Accessibility trust, and uses a signal-aware context.
 4. Add a darwin/cgo implementation linked only to `ApplicationServices`. It calls `AXIsProcessTrusted`, reads the location through `CGEventCreate`, and posts the outbound/restoration mouse events. No third-party input library is used.
@@ -24,10 +24,10 @@ mouse-jiggler --version
 ## Release pipeline
 
 1. GitHub Actions runs `go test ./...` and `go vet ./...` for pull requests and pushes.
-2. A `v*` tag runs GoReleaser. It builds a `darwin/arm64` archive, injects the tag version, produces checksums, creates the GitHub release, and commits the generated Homebrew cask to `wontaek/homebrew-tap`.
+2. A `v*` tag runs GoReleaser. It builds a `darwin/arm64` archive, injects the tag version, produces checksums, creates the GitHub release, and commits the generated Homebrew cask to `dnjdsxor21/homebrew-tap`.
 3. The release workflow requires `RELEASE_GITHUB_TOKEN`: a fine-grained GitHub token with Contents read/write permission limited to both repositories. GoReleaser uses it for the source GitHub release and the separate tap cask commit.
 4. The tap cask installs the archived `mouse-jiggler` binary and verifies `mouse-jiggler --version`.
-5. A user installs it with `brew tap wontaek/tap` and `brew install --cask mouse-jiggler`.
+5. A user installs it with `brew tap dnjdsxor21/tap` and `brew install --cask mouse-jiggler`.
 
 ## Verification
 
