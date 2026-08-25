@@ -22,10 +22,10 @@ Ship a minimal, Homebrew-installable macOS TUI that periodically moves the point
 
 ## Current state
 
-Version `v0.1.1` is released. A Bubble Tea TUI with countdown and bounded movement log is implemented and locally verified; it awaits a tagged release.
+Version `v0.2.0` is released. GitHub Actions verification and release jobs passed. The Homebrew formula upgrade from `0.1.1` to `0.2.0` and its formula test passed on Apple Silicon. The installed TUI was run at a two-second interval; it rendered its countdown, recorded initial and periodic `moved + restored` entries, and exited with `q` and status 0.
 
 ## Next step
 
-Release the TUI as `v0.2.0`, install it through Homebrew, and repeat the terminal smoke test.
+Users install or upgrade with Homebrew, grant Accessibility access if needed, then run `mouse-jiggler`.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.
