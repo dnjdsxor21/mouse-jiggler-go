@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/dnjdsxor21/mouse-jiggler-go/internal/jiggler"
 	"github.com/dnjdsxor21/mouse-jiggler-go/internal/platform"
+	"github.com/dnjdsxor21/mouse-jiggler-go/internal/tui"
 )
 
 var version = "dev"
@@ -23,10 +23,12 @@ type mouse interface {
 }
 
 func main() {
-	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr, platform.Mouse{}))
+	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr, platform.Mouse{}, tui.Run))
 }
 
-func run(args []string, stdout, stderr io.Writer, pointer mouse) int {
+type launcher func(context.Context, time.Duration, func() error) error
+
+func run(args []string, stdout, stderr io.Writer, pointer mouse, start launcher) int {
 	flags := flag.NewFlagSet("mouse-jiggler", flag.ContinueOnError)
 	flags.SetOutput(stderr)
 	flags.Usage = func() {
@@ -63,7 +65,7 @@ func run(args []string, stdout, stderr io.Writer, pointer mouse) int {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	if err := jiggler.Run(ctx, *interval, pointer.Jiggle); err != nil {
+	if err := start(ctx, *interval, pointer.Jiggle); err != nil {
 		fmt.Fprintf(stderr, "mouse-jiggler: %v\n", err)
 		return 1
 	}

@@ -2,15 +2,15 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"strings"
 	"testing"
+	"time"
 )
 
 type fakeMouse struct {
 	trusted bool
-	err     error
-	calls   int
 }
 
 func (m *fakeMouse) Trusted() bool {
@@ -18,13 +18,16 @@ func (m *fakeMouse) Trusted() bool {
 }
 
 func (m *fakeMouse) Jiggle() error {
-	m.calls++
-	return m.err
+	return nil
+}
+
+func noTUI(context.Context, time.Duration, func() error) error {
+	return nil
 }
 
 func TestRunPrintsVersionWithoutAccessibilityAccess(t *testing.T) {
 	var stdout, stderr bytes.Buffer
-	status := run([]string{"--version"}, &stdout, &stderr, &fakeMouse{})
+	status := run([]string{"--version"}, &stdout, &stderr, &fakeMouse{}, noTUI)
 
 	if status != 0 {
 		t.Fatalf("run() status = %d, want 0; stderr = %q", status, stderr.String())
@@ -36,7 +39,7 @@ func TestRunPrintsVersionWithoutAccessibilityAccess(t *testing.T) {
 
 func TestRunRejectsNonPositiveInterval(t *testing.T) {
 	var stdout, stderr bytes.Buffer
-	status := run([]string{"--interval=0s"}, &stdout, &stderr, &fakeMouse{})
+	status := run([]string{"--interval=0s"}, &stdout, &stderr, &fakeMouse{}, noTUI)
 
 	if status != 2 {
 		t.Fatalf("run() status = %d, want 2", status)
@@ -48,7 +51,7 @@ func TestRunRejectsNonPositiveInterval(t *testing.T) {
 
 func TestRunExplainsMissingAccessibilityAccess(t *testing.T) {
 	var stdout, stderr bytes.Buffer
-	status := run(nil, &stdout, &stderr, &fakeMouse{})
+	status := run(nil, &stdout, &stderr, &fakeMouse{}, noTUI)
 
 	if status != 1 {
 		t.Fatalf("run() status = %d, want 1", status)
@@ -58,18 +61,36 @@ func TestRunExplainsMissingAccessibilityAccess(t *testing.T) {
 	}
 }
 
-func TestRunReturnsJiggleError(t *testing.T) {
+func TestRunStartsTUIWithRequestedInterval(t *testing.T) {
 	var stdout, stderr bytes.Buffer
-	pointer := &fakeMouse{trusted: true, err: errors.New("event failed")}
-	status := run(nil, &stdout, &stderr, pointer)
+	var gotInterval time.Duration
+	started := false
+	start := func(_ context.Context, interval time.Duration, _ func() error) error {
+		started = true
+		gotInterval = interval
+		return nil
+	}
 
+	status := run([]string{"--interval=90s"}, &stdout, &stderr, &fakeMouse{trusted: true}, start)
+	if status != 0 {
+		t.Fatalf("run() status = %d, want 0; stderr = %q", status, stderr.String())
+	}
+	if !started || gotInterval != 90*time.Second {
+		t.Fatalf("TUI started=%t interval=%s, want true and 1m30s", started, gotInterval)
+	}
+}
+
+func TestRunReportsTUIFailure(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	start := func(context.Context, time.Duration, func() error) error {
+		return errors.New("terminal failure")
+	}
+
+	status := run(nil, &stdout, &stderr, &fakeMouse{trusted: true}, start)
 	if status != 1 {
 		t.Fatalf("run() status = %d, want 1", status)
 	}
-	if pointer.calls != 1 {
-		t.Fatalf("Jiggle() calls = %d, want 1", pointer.calls)
-	}
-	if !strings.Contains(stderr.String(), "event failed") {
-		t.Fatalf("stderr = %q, want jiggle error", stderr.String())
+	if !strings.Contains(stderr.String(), "terminal failure") {
+		t.Fatalf("stderr = %q, want TUI error", stderr.String())
 	}
 }
