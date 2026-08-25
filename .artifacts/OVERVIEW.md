@@ -22,10 +22,10 @@ Ship a minimal, Homebrew-installable macOS TUI that periodically moves the point
 
 ## Current state
 
-Version `v0.2.0` is released. Interval setup and visual hierarchy improvements are implemented and locally tested; they await a tagged release.
+Version `v0.3.0` is released. GitHub Actions verification and release jobs passed. The Homebrew formula upgrade from `0.2.0` to `0.3.0` and its formula test passed on Apple Silicon. The installed TUI displayed setup, accepted a two-second selection, logged immediate and periodic successful movements, and exited through `q` with status 0.
 
 ## Next step
 
-Release the onboarding TUI as `v0.3.0`, upgrade the Homebrew formula, and verify the full interactive flow.
+Users install or upgrade with Homebrew, grant Accessibility access if needed, then run `mouse-jiggler` and choose an interval.
 
 See [plan/PLAN.md](plan/PLAN.md) for the executable plan.
