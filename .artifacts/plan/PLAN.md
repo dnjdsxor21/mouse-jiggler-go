@@ -7,7 +7,7 @@ mouse-jiggler [--interval DURATION]
 mouse-jiggler --version
 ```
 
-- `--interval` uses Go duration syntax and defaults to `60s`; values must be positive.
+- Omitting `--interval` opens an interval setup screen. The user enters a positive whole number of seconds; the editable default is `60`. Supplying `--interval` skips setup.
 - The foreground full-screen TUI shows the configured interval, a live countdown, and the eight most recent movement results; `q`, Esc, Ctrl-C, or SIGTERM stops it.
 - A jiggle reads the current pointer position, posts a one-point mouse-move event, waits briefly so the event is observable, and posts a move back to the original position.
 - The program never posts a click or keyboard event.
@@ -16,7 +16,7 @@ mouse-jiggler --version
 ## Implementation
 
 1. Initialize `github.com/dnjdsxor21/mouse-jiggler-go` as a Go 1.26 module with MIT licensing and a narrow Go `.gitignore`.
-2. Add a Bubble Tea v2 full-screen model that ticks every second for the countdown, schedules the initial and periodic jiggler commands, and retains eight movement results.
+2. Add a Bubble Tea v2 full-screen model with interval setup, a one-second countdown, initial and periodic jiggler commands, and eight movement results. Use semantic adaptive-color styles without relying on color for state.
 3. Add the CLI entry point. It parses flags, validates duration, handles `--help` and `--version`, checks Accessibility trust, and uses a signal-aware context.
 4. Add a darwin/cgo implementation linked only to `ApplicationServices`. It calls `AXIsProcessTrusted`, reads the location through `CGEventCreate`, and posts the outbound/restoration mouse events. No third-party input library is used.
 5. Add a concise README with local build/run, Accessibility setup, Homebrew install, CLI examples, scope limits, and release instructions.

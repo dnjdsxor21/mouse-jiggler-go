@@ -17,18 +17,17 @@ brew install mouse-jiggler
 ## Use
 
 ```sh
-# The full-screen TUI records each completed pointer movement.
+# Omit --interval to choose a positive whole-number interval in seconds.
 mouse-jiggler
 
-# Use a different positive Go duration.
+# Skip setup and use a Go duration directly.
 mouse-jiggler --interval 2m30s
 
 # Press q, Esc, or Ctrl-C to quit.
 mouse-jiggler --interval 10s
 ```
 
-
-The TUI shows the configured interval, a live countdown to the next movement, and the eight most recent movement results. `mouse-jiggler --version` prints the installed version. `mouse-jiggler --help` shows the command options.
+Without `--interval`, setup starts with an editable `60` seconds and requires Enter to begin. The full-screen TUI shows the configured interval, a fixed-width countdown to the next movement, and the eight most recent movement results.
 
 ## Grant Accessibility access
 

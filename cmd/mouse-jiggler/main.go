@@ -26,14 +26,14 @@ func main() {
 	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr, platform.Mouse{}, tui.Run))
 }
 
-type launcher func(context.Context, time.Duration, func() error) error
+type launcher func(context.Context, time.Duration, bool, func() error) error
 
 func run(args []string, stdout, stderr io.Writer, pointer mouse, start launcher) int {
 	flags := flag.NewFlagSet("mouse-jiggler", flag.ContinueOnError)
 	flags.SetOutput(stderr)
 	flags.Usage = func() {
 		fmt.Fprintln(stderr, "Usage: mouse-jiggler [--interval DURATION]")
-		fmt.Fprintln(stderr, "\nMoves the pointer one point and restores it without clicking.")
+		fmt.Fprintln(stderr, "\nWithout --interval, choose the interval in the interactive TUI.")
 		flags.PrintDefaults()
 	}
 
@@ -45,6 +45,10 @@ func run(args []string, stdout, stderr io.Writer, pointer mouse, start launcher)
 		}
 		return 2
 	}
+	intervalProvided := false
+	flags.Visit(func(flag *flag.Flag) {
+		intervalProvided = intervalProvided || flag.Name == "interval"
+	})
 	if *showVersion {
 		fmt.Fprintln(stdout, version)
 		return 0
@@ -65,7 +69,7 @@ func run(args []string, stdout, stderr io.Writer, pointer mouse, start launcher)
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	if err := start(ctx, *interval, pointer.Jiggle); err != nil {
+	if err := start(ctx, *interval, !intervalProvided, pointer.Jiggle); err != nil {
 		fmt.Fprintf(stderr, "mouse-jiggler: %v\n", err)
 		return 1
 	}

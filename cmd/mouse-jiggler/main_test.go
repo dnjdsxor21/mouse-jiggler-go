@@ -21,7 +21,7 @@ func (m *fakeMouse) Jiggle() error {
 	return nil
 }
 
-func noTUI(context.Context, time.Duration, func() error) error {
+func noTUI(context.Context, time.Duration, bool, func() error) error {
 	return nil
 }
 
@@ -64,10 +64,12 @@ func TestRunExplainsMissingAccessibilityAccess(t *testing.T) {
 func TestRunStartsTUIWithRequestedInterval(t *testing.T) {
 	var stdout, stderr bytes.Buffer
 	var gotInterval time.Duration
+	gotPrompt := true
 	started := false
-	start := func(_ context.Context, interval time.Duration, _ func() error) error {
+	start := func(_ context.Context, interval time.Duration, prompt bool, _ func() error) error {
 		started = true
 		gotInterval = interval
+		gotPrompt = prompt
 		return nil
 	}
 
@@ -75,14 +77,31 @@ func TestRunStartsTUIWithRequestedInterval(t *testing.T) {
 	if status != 0 {
 		t.Fatalf("run() status = %d, want 0; stderr = %q", status, stderr.String())
 	}
-	if !started || gotInterval != 90*time.Second {
-		t.Fatalf("TUI started=%t interval=%s, want true and 1m30s", started, gotInterval)
+	if !started || gotInterval != 90*time.Second || gotPrompt {
+		t.Fatalf("TUI started=%t interval=%s prompt=%t, want true, 1m30s, false", started, gotInterval, gotPrompt)
+	}
+}
+
+func TestRunPromptsWhenIntervalIsOmitted(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	gotPrompt := false
+	start := func(_ context.Context, _ time.Duration, prompt bool, _ func() error) error {
+		gotPrompt = prompt
+		return nil
+	}
+
+	status := run(nil, &stdout, &stderr, &fakeMouse{trusted: true}, start)
+	if status != 0 {
+		t.Fatalf("run() status = %d, want 0; stderr = %q", status, stderr.String())
+	}
+	if !gotPrompt {
+		t.Fatal("TUI prompt = false, want true")
 	}
 }
 
 func TestRunReportsTUIFailure(t *testing.T) {
 	var stdout, stderr bytes.Buffer
-	start := func(context.Context, time.Duration, func() error) error {
+	start := func(context.Context, time.Duration, bool, func() error) error {
 		return errors.New("terminal failure")
 	}
 
